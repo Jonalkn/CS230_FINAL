@@ -22,7 +22,7 @@ SIZE = 128 #Using 128x128 pixels for now. with 50pix/s, this capture ~ 2.6s of s
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--data_dir', default='data/sliced_specs', help="Directory with the raw spectrograms")
-parser.add_argument('--train_fraction', default= 0.9, help="Percentage of dataset to be used for training")
+parser.add_argument('--train_fraction', default= 0.95, help="Percentage of dataset to be used for training")
 parser.add_argument('--output_dir', default='data/128x128_specs', help="Where to write the new data")
 
 def resize_and_save(fname, output_dir, size=SIZE):
@@ -51,7 +51,7 @@ if __name__ == '__main__':
 	split = int(train_fract*len(fnames))
 	train_dev_fnames = fnames[:split]
 	test_fnames = fnames[split:]
-	split = int(0.85*len(train_dev_fnames))
+	split = int(0.95*len(train_dev_fnames))
 	train_fnames = train_dev_fnames[:split]
 	dev_fnames = train_dev_fnames[split:]
 
