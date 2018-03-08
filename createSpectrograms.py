@@ -6,13 +6,14 @@ from tqdm import tqdm  #For progress bars etc
 parser = argparse.ArgumentParser()
 parser.add_argument('--audio_dir', default='data/wav_songs', help="Directory with the .wav SONGS dataset")
 parser.add_argument('--output_dir', default='data/raw_specs', help="Where to write the new data")
-pixpersec = 50
+parser.add_argument('--pixpersec', default= 25, help="Number of pixels per second in the spectrogram")
 
 if __name__ == '__main__':
 	args = parser.parse_args()
 
 	audio_dir = args.audio_dir   # source of the .wav songs
 	specs_dir = args.output_dir  # Output directory for the raw spectrograms
+	pixpersec = args.pixpersec   # number of pixels per second in the spectrogram
 
 	assert os.path.isdir(audio_dir), "Couldn't find the dataset at {}".format(audio_dir)
 
