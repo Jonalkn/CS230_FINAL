@@ -73,11 +73,11 @@ class Net(nn.Module):
         #                                                  -> batch_size x 1 x 128 x 128
         # we apply the convolution layers, followed by batch normalisation, maxpool and relu x 3
         s = self.bn1(self.conv1(s))                         # batch_size x num_channels x 128 x 128
-        s = F.relu(F.AvgPool2d(s, 2))                      # batch_size x num_channels x 64 x 64
+        s = F.relu(F.avg_pool2d(s, 2))                      # batch_size x num_channels x 64 x 64
         s = self.bn2(self.conv2(s))                         # batch_size x num_channels*2 x 64 x 64
-        s = F.relu(F.AvgPool2d(s, 2))                      # batch_size x num_channels*2 x 32 x 32
+        s = F.relu(F.avg_pool2d(s, 2))                      # batch_size x num_channels*2 x 32 x 32
         s = self.bn3(self.conv3(s))                         # batch_size x num_channels*4 x 32 x 32
-        s = F.relu(F.AvgPool2d(s, 2))                      # batch_size x num_channels*4 x 16 x 16
+        s = F.relu(F.avg_pool2d(s, 2))                      # batch_size x num_channels*4 x 16 x 16
 
         # flatten the output for each image
         s = s.view(-1, 16*16*self.num_channels*4)             # batch_size x 16*16*num_channels*4
