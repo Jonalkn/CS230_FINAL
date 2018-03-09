@@ -150,7 +150,6 @@ def plot_confusion_matrix(y_actu, y_pred, title='Confusion matrix', cmap=plt.cm.
     
     y_actu = y_actu.reshape((y_actu.shape[1], ))
     y_pred = y_pred.reshape((y_pred.shape[1], ))
-    
     df_confusion = pd.crosstab(y_actu, y_pred, rownames=['Actual'], colnames=['Predicted'], margins=True)
     
     df_conf_norm = df_confusion / df_confusion.sum(axis=1)
