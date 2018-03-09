@@ -35,7 +35,8 @@ def evaluate(model, loss_fn, dataloader, metrics, params):
 
     # summary for current eval loop
     summ = []
-
+    y_pred = np.empty((1, 0))
+    y_actual = np.empty((1, 0))
     # compute metrics over the dataset
     for data_batch, labels_batch in dataloader:
 
@@ -58,11 +59,23 @@ def evaluate(model, loss_fn, dataloader, metrics, params):
                          for metric in metrics}
         summary_batch['loss'] = loss.data[0]
         summ.append(summary_batch)
+        
+        
+        outputs = np.argmax(output_batch, axis=1)
+        len_out = len(outputs)
+        len_labels = len(labels_batch)
+        outputs = np.reshape(outputs, (1, len_out))
+        labels = np.reshape(labels_batch, (1, len_labels))
+        
+        y_pred = np.append(y_pred, outputs, axis=1)
+        y_actual = np.append(y_actual, labels, axis=1)
 
     # compute mean of all metrics in summary
     metrics_mean = {metric:np.mean([x[metric] for x in summ]) for metric in summ[0]} 
     metrics_string = " ; ".join("{}: {:05.3f}".format(k, v) for k, v in metrics_mean.items())
     logging.info("- Eval metrics : " + metrics_string)
+    
+    utils.plot_confusion_matrix(y_actual, y_pred)
     return metrics_mean
 
 
