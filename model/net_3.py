@@ -94,7 +94,7 @@ class Net(nn.Module):
         s = self.bn4(self.conv4(s))                         # batch_size x num_channels*8 x  8 x  8
         s = F.relu(F.avg_pool2d(s, 2))                      # batch_size x num_channels*8 x  4 x  4
 
-        s = self.bn4(self.conv5(s))                         # batch_size x num_channels*16 x  2 x  2
+        s = self.bn5(self.conv5(s))                         # batch_size x num_channels*16 x  2 x  2
         s = F.relu(F.avg_pool2d(s, 2))                      # batch_size x num_channels*16 x  1 x  1
 
 

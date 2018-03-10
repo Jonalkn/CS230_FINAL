@@ -1,0 +1,11 @@
+2018-03-10 09:56:14,461:INFO: Loading the datasets...
+2018-03-10 09:56:15,016:INFO: - done.
+2018-03-10 09:56:19,258:INFO: Starting training for 1 epoch(s)
+2018-03-10 09:56:19,258:INFO: Epoch 1/1
+2018-03-10 09:57:59,933:INFO: Loading the datasets...
+2018-03-10 09:58:00,168:INFO: - done.
+2018-03-10 09:58:02,892:INFO: Starting training for 1 epoch(s)
+2018-03-10 09:58:02,892:INFO: Epoch 1/1
+2018-03-10 10:13:42,334:INFO: - Train metrics: accuracy: 0.336 ; loss: 1.771
+2018-03-10 10:13:53,773:INFO: - Eval metrics : accuracy: 0.256 ; loss: 2.669
+2018-03-10 10:13:54,545:INFO: - Found new best accuracy
