@@ -9,3 +9,23 @@
 2018-03-10 10:13:42,334:INFO: - Train metrics: accuracy: 0.336 ; loss: 1.771
 2018-03-10 10:13:53,773:INFO: - Eval metrics : accuracy: 0.256 ; loss: 2.669
 2018-03-10 10:13:54,545:INFO: - Found new best accuracy
+2018-03-10 10:23:03,836:INFO: Loading the datasets...
+2018-03-10 10:23:04,070:INFO: - done.
+2018-03-10 10:23:06,701:INFO: Starting training for 1 epoch(s)
+2018-03-10 10:23:06,702:INFO: Restoring parameters from experiments/deep_model/best.pth.tar
+2018-03-10 10:23:06,927:INFO: Epoch 1/1
+2018-03-10 10:38:50,584:INFO: - Train metrics: accuracy: 0.460 ; loss: 1.516
+2018-03-10 10:39:02,043:INFO: - Eval metrics : accuracy: 0.452 ; loss: 1.575
+2018-03-10 10:39:07,185:INFO: - Found new best accuracy
+2018-03-10 10:39:38,142:INFO: Loading the datasets...
+2018-03-10 10:39:38,375:INFO: - done.
+2018-03-10 10:39:38,572:INFO: Starting training for 1 epoch(s)
+2018-03-10 10:39:38,573:INFO: Restoring parameters from experiments/deep_model/best.pth.tar
+2018-03-10 10:39:38,781:INFO: Epoch 1/1
+2018-03-10 10:55:21,242:INFO: - Train metrics: accuracy: 0.526 ; loss: 1.325
+2018-03-10 10:55:32,694:INFO: - Eval metrics : accuracy: 0.474 ; loss: 1.441
+2018-03-10 10:55:37,785:INFO: - Found new best accuracy
+2018-03-10 10:55:48,695:INFO: Creating the dataset...
+2018-03-10 10:55:48,708:INFO: - done.
+2018-03-10 10:55:48,909:INFO: Starting evaluation
+2018-03-10 10:56:01,171:INFO: - Eval metrics : accuracy: 0.464 ; loss: 1.495
