@@ -149,10 +149,11 @@ def plot_confusion_matrix(y_actu, y_pred, title='Confusion matrix', cmap=plt.cm.
     
     y_actu = y_actu.reshape((y_actu.shape[1], ))
     y_pred = y_pred.reshape((y_pred.shape[1], ))
+    
     df_confusion = pd.crosstab(y_actu, y_pred, rownames=['Actual'], colnames=['Predicted'], margins=True)
     
     df_conf_norm = df_confusion / df_confusion.sum(axis=1)
-   
+    print(df_confusion)
     
     plt.matshow(df_confusion, cmap=cmap) # imshow
     #plt.title(title)
@@ -163,3 +164,8 @@ def plot_confusion_matrix(y_actu, y_pred, title='Confusion matrix', cmap=plt.cm.
     #plt.tight_layout()
     plt.ylabel(df_confusion.index.name)
     plt.xlabel(df_confusion.columns.name)
+    plt.show()
+    
+    
+    
+    
