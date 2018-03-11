@@ -8,6 +8,11 @@ import matplotlib.pyplot as plt
 
 import torch
 
+
+#define a Dictionary that maps song genre to labels
+
+label_to_genre = {0: "Electronic", 1: "Experimental", 2: "Folk", 3: "Hip-Hop", 4: "Instrumental", 5: "International", 6: "Pop", 7: "Rock"}
+
 class Params():
     """Class that loads hyperparameters from a json file.
 
@@ -167,5 +172,19 @@ def plot_confusion_matrix(y_actu, y_pred, title='Confusion matrix', cmap=plt.cm.
     plt.show()
     
     
+def plot_bar_graph(genre_confidences):
+    """
+    Plots a horizontal bar graph given a vector of confidences of each song genre
+
+    Uses the the label_to_genre dictionary defined above to convert vector indices to bar labels
+
+    arguments:
+    genre_confidences := numpy array with values between 0 and 1 representing the track genre confidences
+    """
+    x = [values for _, values in label_to_genre.items()]
+    df = pd.DataFrame(genre_confidences)
+    ax = df.plot.barh()
+    ax.set_yticklabels(x)
     
+
     

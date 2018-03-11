@@ -58,22 +58,68 @@ class SpecsDataset(Dataset):
         im = self.transform(im)
         return im, self.labels[idx]
 
+class TmpSpecsDataset(Dataset):
+    """
+    A standard PyTorch definition of Dataset which defines the functions __len__ and __getitem__.
+    Note that this is a special version of the SpecsDataSet class specified above in the sense that in this particular 
+    case, the specs have not yet been classified. As a result this class does not have the labels function
+
+    Another option would be to include conditional statements but it is just cleaner to create a separate class.
+    """
+    def __init__(self, data_dir, transform):
+        """
+        Store the filenames of the pngs to use. Specifies transforms to apply on images.
+
+        Args:
+            data_dir: (string) directory containing the dataset
+            transform: (torchvision.transforms) transformation to apply on image
+        """
+        self.fnames = os.listdir(data_dir)
+        self.fnames = [os.path.join(data_dir, f) for f in self.fnames if f.endswith('.png')]
+
+        self.transform = transform
+
+    def __len__(self):
+        # return size of dataset
+        return len(self.fnames)
+
+    def __getitem__(self, idx):
+        """
+        Fetch index idx image from dataset. Perform transforms on image.
+
+        Args:
+            idx: (int) index in [0, 1, ..., size_of_dataset-1]
+
+        Returns:
+            image: (Tensor) transformed image
+        """
+        im = Image.open(self.fnames[idx])  # PIL image
+        im = self.transform(im)
+        return im
+
 
 def fetch_dataloader(types, data_dir, params):
     """
     Fetches the DataLoader object for each type in types from data_dir.
 
+    *******************************************************************************************************
+    In this function, we introduce another slit called tmp (temporary). This split represents the temporary
+    spectrograms obtained when a user wants to classify a single song after training. The spectrograms from
+    this split are slices of the same song. This allows for voting on the most likely class.
+    ********************************************************************************************************
+
+    
     Args:
-        types: (list) has one or more of 'train', 'dev', 'test' depending on which data is required
+        types: (list) has one or more of 'train', 'dev', 'test', 'tmp' depending on which data is required
         data_dir: (string) directory containing the dataset
         params: (Params) hyperparameters
 
     Returns:
-        data: (dict) contains the DataLoader object for each type in types
+        dataloaders: (dict) contains the DataLoader object for each type in types
     """
     dataloaders = {}
 
-    for split in ['train', 'dev', 'test']:
+    for split in ['train', 'dev', 'test', 'tmp']:  
         if split in types:
             path = os.path.join(data_dir, "{}_specs".format(split))
 
@@ -82,6 +128,12 @@ def fetch_dataloader(types, data_dir, params):
                 dl = DataLoader(SpecsDataset(path, train_transformer), batch_size=params.batch_size, shuffle=True,
                                         num_workers=params.num_workers,
                                         pin_memory=params.cuda)
+            #Use the TmpSpecsDataset class instead of the SpecsDataSet class.
+            elif split == 'tmp':
+                dl = DataLoader(TmpSpecsDataset(path, dev_transformer), batch_size=params.batch_size, shuffle=True,
+                                        num_workers=params.num_workers,
+                                        pin_memory=params.cuda)
+
             else:
                 dl = DataLoader(SpecsDataset(path, dev_transformer), batch_size=params.batch_size, shuffle=False,
                                 num_workers=params.num_workers,
