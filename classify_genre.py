@@ -79,13 +79,13 @@ def get_genre_confidence(model, dataloader, params):
         print("The shape of the output batch is: " + str(output_batch.shape))
 
         #Append the outputs batch to the confidence matrix 
-        confidence_matrix = np.append(confidence_matrix, output_batch, axis = 1)
+        confidence_matrix = np.append(confidence_matrix, output_batch.T, axis = 1)
 
     # compute mean of all metrics in summary
-    genre_confs = np.exp(np.mean(confidence_matrix, axis = 1))
-    
-    utils.plot_confusion_matrix(y_actual, y_pred)
-    return metrics_mean
+    genre_confs_raw = np.exp(np.mean(confidence_matrix, axis = 1))
+    genre_confs = genre_confs_raw*1.0/(np.sum(genre_confs_raw))
+
+    return genre_confs
 
 
 if __name__ == '__main__':
