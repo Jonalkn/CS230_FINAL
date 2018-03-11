@@ -183,9 +183,9 @@ def plot_bar_graph(genre_confidences):
     """
     x = [values for _, values in label_to_genre.items()]
     df = pd.DataFrame(genre_confidences)
-    print(df)
     ax = df.plot.barh()
     ax.set_yticklabels(x)
+    plt.show()
     
 
     

@@ -76,16 +76,14 @@ def get_genre_confidence(model, dataloader, params):
 
         # extract data from torch Variable, move to cpu, convert to numpy arrays
         output_batch = output_batch.data.cpu().numpy()
-        print("The shape of the output batch is: " + str(output_batch.shape))
 
         #Append the outputs batch to the confidence matrix 
         confidence_matrix = np.append(confidence_matrix, output_batch.T, axis = 1)
 
     # compute mean of all metrics in summary
-    genre_confs_raw = np.exp(np.mean(confidence_matrix, axis = 1))
-    genre_confs = genre_confs_raw*1.0/(np.sum(genre_confs_raw))
+    genre_confs = np.exp(np.mean(confidence_matrix, axis = 1))
 
-    return genre_confs
+    return genre_confs/np.sum(genre_confs)
 
 
 if __name__ == '__main__':
@@ -131,6 +129,13 @@ if __name__ == '__main__':
 
     # Evaluate
     genre_confidences = get_genre_confidence(model, tmp_dl, params)
+    
+    max_idx = np.argmax(genre_confidences)
+    if genre_confidences[max_idx] >= params.confidence_threshold:
+        print("This track is definitely " + utils.label_to_genre[max_idx])
+    else: 
+        print("This is a hard one! Take a look at the bars")
+    
 
     #Plot the bar graph here!
     utils.plot_bar_graph(genre_confidences)
