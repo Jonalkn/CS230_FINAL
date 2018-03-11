@@ -1,10 +1,12 @@
 import json
 import logging
 import os
+import subprocess
 import shutil
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+from sliceSpecs import slice_spec
 
 import torch
 
@@ -186,6 +188,63 @@ def plot_bar_graph(genre_confidences):
     ax = df.plot.barh()
     ax.set_yticklabels(x)
     plt.show()
+
+
+def preprocess_track_for_classification(path_to_song):
+    """
+    Preprocesses a song before classifying it into a genre.
+
+    The steps include:
+      - convert song to .wav format if mp3
+      - Create the song's spectrogram and save it in a temporary folder
+      - Slice the created spectrograms and save them into data/128x128_specs/tmp_specs/
+
+    """
+
+    # Clear all temporary data folder first; This ensures you don't mix spectrograms
+    # different songs
+
+    output_dir = "data/128x128_specs/tmp_specs"
+    tmp_test_folder = "test_songs/"
+
+    if os.path.exists(output_dir):
+        c = ["rm", "-r", "data/128x128_specs/tmp_specs/"]
+        subprocess.call(c)
+
+    if not os.path.exists(tmp_test_folder):
+        os.mkdir(tmp_test_folder)
+    else:
+        print("Warning: temporary directory {} already exists".format(tmp_test_folder))
+
+        
+    if not os.path.exists(path_to_song):
+        print("The path {} does not exist".format(path_to_song))
+        quit()
+    else:
+        fname = path_to_song
+        
+    # Convert to .wav first
+    # Note, this makes it work on a Mac since I couldn't get Sox to handle .mp3. However, on the Ubuntu machines
+    # this is unnecessary
+    if fname.endswith(".mp3"):
+        dst = os.path.join(tmp_test_folder, fname.split("/")[-1].split(".mp")[0] + ".wav")
+        command = ['ffmpeg', '-v', '0', '-i', fname, dst]
+        subprocess.call(command)
+
+    fname = os.path.join(tmp_test_folder, fname.split("/")[-1].split(".")[0] + ".wav")
+        
+    # Create a spectrogram using sox
+    dest = fname.split(".wa")[0] + ".png"
+    command = ['sox', fname, '-n', 'remix', '1','spectrogram', '-Y', '200', '-X', '50', '-m', '-r', '-o', dest]
+    subprocess.call(command)
+
+    #slice and save spectrograms
+    if not os.path.exists(output_dir):
+        os.mkdir(output_dir)
+    new_dest= dest.split("/")[-1]
+    slice_spec(new_dest, 128, tmp_test_folder, output_dir)
+    
+    
     
 
     
