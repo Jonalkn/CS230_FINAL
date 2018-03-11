@@ -76,6 +76,7 @@ def get_genre_confidence(model, dataloader, params):
 
         # extract data from torch Variable, move to cpu, convert to numpy arrays
         output_batch = output_batch.data.cpu().numpy()
+print("The shape of output batch is: " + str(output_batch.shape))
 
         #Append the outputs batch to the confidence matrix 
         confidence_matrix = np.append(confidence_matrix, output_batch, axis = 1)
