@@ -187,7 +187,10 @@ def plot_bar_graph(genre_confidences):
     df = pd.DataFrame(genre_confidences)
     ax = df.plot.barh()
     ax.set_yticklabels(x)
+    plt.tight_layout()
+    plt.savefig("bar_plot.svg")
     plt.show()
+    
 
 
 def preprocess_track_for_classification(path_to_song):

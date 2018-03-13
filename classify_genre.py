@@ -133,6 +133,7 @@ if __name__ == '__main__':
     max_idx = np.argmax(genre_confidences)
     if genre_confidences[max_idx] >= params.confidence_threshold:
         print("This track is definitely " + utils.label_to_genre[max_idx])
+        print("I am "+ str(genre_confidences[max_idx]*100) + "% sure.")
     else: 
         print("This is a hard one! Take a look at the bars")
     
