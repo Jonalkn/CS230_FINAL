@@ -8,6 +8,5 @@
     "num_workers": 4,
     "num_classes": 8,
     "confidence_threshold": 0.6,
-    "amsgrad": False,
-    "weight_decay":0.0
+    "weight_decay": 0.0
 }
