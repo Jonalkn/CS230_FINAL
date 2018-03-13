@@ -1,7 +1,7 @@
 {
     "learning_rate": 0.001,
     "batch_size": 32,
-    "num_epochs": 1,
+    "num_epochs": 35,
     "dropout_rate": 0.6,
     "num_channels": 64,
     "save_summary_steps": 100,
