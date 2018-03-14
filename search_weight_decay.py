@@ -47,7 +47,7 @@ if __name__ == "__main__":
     params = utils.Params(json_path)
 
     # Perform hypersearch over one parameter
-    weight_decays = [5.0e-05, 1.0e-04, 5.0e-04, 1.0e-03]
+    weight_decays = [5.0e-04, 1.0e-03, 5.0e-02, 1.0e-01]
 
     for weight_decay in weight_decays:
         # Modify the relevant parameter in params
