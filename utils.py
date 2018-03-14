@@ -152,7 +152,7 @@ def load_checkpoint(checkpoint, model, optimizer=None):
     return checkpoint
 
 
-def plot_confusion_matrix(y_actu, y_pred, title='Confusion matrix', cmap=plt.cm.gray_r):
+def plot_confusion_matrix(y_actu, y_pred, save_plot, title='Confusion matrix', cmap=plt.cm.gray_r):
     
     y_actu = y_actu.reshape((y_actu.shape[1], ))
     y_pred = y_pred.reshape((y_pred.shape[1], ))
@@ -168,7 +168,10 @@ def plot_confusion_matrix(y_actu, y_pred, title='Confusion matrix', cmap=plt.cm.
     tick_marks = np.arange(len(df_confusion.columns))
     plt.xticks(tick_marks, df_confusion.columns, rotation=45)
     plt.yticks(tick_marks, df_confusion.index)
-    #plt.tight_layout()
+    if save_plot:
+        plt.tight_layout()
+        plt.savefig("conf_matrix_plot.svg")
+        
     plt.ylabel(df_confusion.index.name)
     plt.xlabel(df_confusion.columns.name)
     plt.show()
@@ -193,7 +196,7 @@ def plot_bar_graph(genre_confidences):
     
 
 
-def preprocess_track_for_classification(path_to_song):
+def preprocess_track_for_classification(path_to_song, output_dir):
     """
     Preprocesses a song before classifying it into a genre.
 
@@ -207,11 +210,11 @@ def preprocess_track_for_classification(path_to_song):
     # Clear all temporary data folder first; This ensures you don't mix spectrograms
     # different songs
 
-    output_dir = "data/128x128_specs/tmp_specs"
+#     output_dir = "data/128x128_specs/tmp_specs"
     tmp_test_folder = "test_songs/"
 
     if os.path.exists(output_dir):
-        c = ["rm", "-r", "data/128x128_specs/tmp_specs/"]
+        c = ["rm", "-rf", output_dir]
         subprocess.call(c)
 
     if not os.path.exists(tmp_test_folder):

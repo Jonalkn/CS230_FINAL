@@ -14,11 +14,12 @@ import model.data_loader as data_loader
 parser = argparse.ArgumentParser()
 parser.add_argument('--data_dir', default='data/128x128_specs', help="Directory containing the dataset")
 parser.add_argument('--model_dir', default='experiments/deep_model', help="Directory containing params.json")
+parser.add_argument('--save_plot', default= False, help="Whether or not to save the confusion matrix")
 parser.add_argument('--restore_file', default='best', help="name of the file in --model_dir \
                      containing weights to load")
 
 
-def evaluate(model, loss_fn, dataloader, metrics, params):
+def evaluate(model, loss_fn, dataloader, metrics, params, save_plot = False):
     """Evaluate the model on `num_steps` batches.
 
     Args:
@@ -75,7 +76,7 @@ def evaluate(model, loss_fn, dataloader, metrics, params):
     metrics_string = " ; ".join("{}: {:05.3f}".format(k, v) for k, v in metrics_mean.items())
     logging.info("- Eval metrics : " + metrics_string)
     
-    utils.plot_confusion_matrix(y_actual, y_pred)
+    utils.plot_confusion_matrix(y_actual, y_pred, save_plot)
     return metrics_mean
 
 
@@ -120,6 +121,6 @@ if __name__ == '__main__':
     utils.load_checkpoint(os.path.join(args.model_dir, args.restore_file + '.pth.tar'), model)
 
     # Evaluate
-    test_metrics = evaluate(model, loss_fn, test_dl, metrics, params)
+    test_metrics = evaluate(model, loss_fn, test_dl, metrics, params, save_plot = args.save_plot)
     save_path = os.path.join(args.model_dir, "metrics_test_{}.json".format(args.restore_file))
     utils.save_dict_to_json(test_metrics, save_path)
