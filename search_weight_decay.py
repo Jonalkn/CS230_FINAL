@@ -12,7 +12,7 @@ PYTHON = sys.executable
 parser = argparse.ArgumentParser()
 parser.add_argument('--parent_dir', default='experiments/weight_decay',
                     help='Directory containing params.json')
-parser.add_argument('--data_dir', default='data/128x128_specs', help="Directory containing the dataset")
+parser.add_argument('--data_dir', default='data/128x128_specs_tmp', help="Directory containing the dataset")
 
 
 def launch_training_job(parent_dir, data_dir, job_name, params):
